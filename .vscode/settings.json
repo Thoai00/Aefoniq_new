@@ -1,0 +1,14 @@
+{
+  // Treat .css as PostCSS so Tailwind directives are recognized
+  "files.associations": { "*.css": "postcss" },
+
+  // Silence false warnings from the stock CSS validator
+  "css.validate": false,
+
+  // (Optional) If you prefer to keep the validator on but only silence this rule:
+  // "css.lint.unknownAtRules": "ignore",
+
+  // Quality-of-life for Tailwind
+  "tailwindCSS.emmetCompletions": true,
+  "editor.quickSuggestions": { "strings": true }
+}

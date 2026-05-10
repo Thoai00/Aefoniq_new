@@ -1,27 +1,252 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer utilities {
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes rotate-reverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-rotate {
+    animation: rotate 25s linear infinite;
+  }
+
+  .animate-rotate-reverse {
+    animation: rotate-reverse 30s linear infinite;
+  }
+
+  .animate-border-flow {
+    animation: border-flow 3s linear infinite;
+  }
+
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rotate,
+    .animate-rotate-reverse,
+    .animate-border-flow {
+      animation: none;
+    }
   }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 0.5s;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.95); }
   }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+}
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+.animate-typing {
+  animation: typing 4s steps(40, end) infinite;
+}
+
+
+
+@keyframes glitch {
+  0% { clip-path: inset(10% 0 90% 0); }
+  25% { clip-path: inset(80% 0 5% 0); }
+  50% { clip-path: inset(30% 0 60% 0); }
+  75% { clip-path: inset(5% 0 85% 0); }
+  100% { clip-path: inset(55% 0 30% 0); }
+}
+
+.glitch-text {
+  position: relative;
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &::before {
+    left: 2px;
+    text-shadow: -2px 0 #FF00FF;
+    animation: glitch 2s infinite linear alternate-reverse;
+  }
+  &::after {
+    left: -2px;
+    text-shadow: 2px 0 #00FFFF;
+    animation: glitch 2s infinite linear alternate;
+  }
+}
+
+.cyber-cube {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotateX(45deg) rotateZ(45deg);
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    .content {
+      position: relative;
+      .grid-lines {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, transparent 24%, currentColor 25%),
+                    linear-gradient(90deg, transparent 24%, currentColor 25%);
+        background-size: 40px 40px;
+        opacity: 0.1;
+      }
+    }
+    &:nth-child(1) { transform: translateZ(150px); }
+    &:nth-child(2) { transform: translateZ(-150px) rotateY(180deg); }
+    &:nth-child(3) { transform: rotateY(90deg) translateZ(150px); }
+    &:nth-child(4) { transform: rotateY(-90deg) translateZ(150px); }
+    &:nth-child(5) { transform: rotateX(90deg) translateZ(150px); }
+    &:nth-child(6) { transform: rotateX(-90deg) translateZ(150px); }
+  }
+}
+
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.05) 0px,
+    rgba(255,255,255,0.05) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glitch {
+  position: relative;
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch::before {
+  clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%);
+  animation: glitch-before 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%);
+  animation: glitch-after 2s infinite linear alternate-reverse;
+}
+
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
