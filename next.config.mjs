@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   reactStrictMode: true,
-  images: { unoptimized: true } // keep true to avoid image-optimizer/sharp on shared hosting
+  images: {
+    unoptimized: true,
+    // Add this if you are using external images/videos
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.youtube.com',
+      },
+    ],
+  },
 };
+
 export default nextConfig;
